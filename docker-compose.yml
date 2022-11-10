@@ -1,28 +1,33 @@
 version: '3'
+
 services:
   db:
-    image: postgres:10
+    image: postgres:14
     environment:
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
       - POSTGRES_DB=postgres
     volumes:
-        - ./postgresql:/var/lib/postgresql/data
+        - postgresql:/var/lib/postgresql/data
 
-  odoo14:
-    image: odoo:14
-    # platform: amd64
+  odoo:
+    image: odoo:16
     # build: ./build
     depends_on:
       - db
     ports:
-      - "10014:8069"
+      - "10016:8069"
     # command: -- --dev=reload
     environment:
       - HOST=db
       - USER=odoo
       - PASSWORD=odoo
     volumes:
-      - ./addons:/mnt/extra-addons
-      - ./enterprise:/mnt/enterprise-addons
+      - ./:/mnt/extra-addons
       - ./etc:/etc/odoo
+      - ../enterprise-16:/mnt/enterprise-addons
+      - filestore:/var/lib/odoo
+
+volumes:
+  postgresql:
+  filestore:
