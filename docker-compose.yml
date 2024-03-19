@@ -2,7 +2,7 @@ version: '3'
 
 services:
   db:
-    image: postgres:14
+    image: postgres:15
     environment:
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
@@ -11,12 +11,12 @@ services:
         - postgresql:/var/lib/postgresql/data
 
   odoo:
-    image: odoo:16
+    image: odoo:17
     # build: ./build
     depends_on:
       - db
     ports:
-      - "10016:8069"
+      - "10017:8069"
     # command: -- --dev=reload
     environment:
       - HOST=db
@@ -25,7 +25,7 @@ services:
     volumes:
       - ./:/mnt/extra-addons
       - ./etc:/etc/odoo
-      - ../enterprise-16:/mnt/enterprise-addons
+      - ../enterprise-17:/mnt/enterprise-addons
       - filestore:/var/lib/odoo
 
 volumes:
